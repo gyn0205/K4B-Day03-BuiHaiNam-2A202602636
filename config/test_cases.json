@@ -1,0 +1,37 @@
+[
+  {
+    "id": "TC01",
+    "type": "direct_query",
+    "question": "Chào bạn, VinBus là dịch vụ gì và có thân thiện với môi trường không?",
+    "expected_behavior": "Chatbot trả lời trực tiếp từ System Prompt, không cần gọi bất kỳ Tool nào.",
+    "complexity": "Low"
+  },
+  {
+    "id": "TC02",
+    "type": "single_tool_query",
+    "question": "Hãy tra cứu tuyến VinBus từ Vinhomes Central Park đến Bến xe Miền Đông mới.",
+    "expected_behavior": "Agent nhận diện nhu cầu tra cứu, tự động phát sinh Tool Call 'route_lookup' với điểm đi và điểm đến chính xác.",
+    "complexity": "Medium"
+  },
+  {
+    "id": "TC03",
+    "type": "appointment_booking",
+    "question": "Tôi muốn đăng ký vé tháng VinBus cho tuyến E01, bắt đầu sử dụng từ ngày 20/09/2026. Hãy hướng dẫn và thực hiện đăng ký cho tôi.",
+    "expected_behavior": "Agent xác nhận tuyến và ngày bắt đầu, sau đó phát sinh Tool Call 'monthly_pass_registration' với đúng thông tin đăng ký vé tháng.",
+    "complexity": "Medium"
+  },
+  {
+    "id": "TC04",
+    "type": "multi_step_reasoning",
+    "question": "Tôi cần đi từ Vinhomes Central Park đến Bến xe Miền Đông mới vào lúc 07:30 ngày 15/09/2026. Hãy tìm tuyến VinBus phù hợp, kiểm tra thời gian hoạt động và đăng ký vé tháng nếu tuyến đó hỗ trợ.",
+    "expected_behavior": "Agent thực hiện chuỗi suy luận ReAct: gọi Tool 'route_lookup' để tra cứu tuyến và lịch hoạt động, phân tích kết quả, sau đó chỉ gọi 'monthly_pass_registration' nếu có tuyến phù hợp và khách hàng xác nhận.",
+    "complexity": "High"
+  },
+  {
+    "id": "TC05",
+    "type": "edge_case_handling",
+    "question": "VinBus có tuyến nào từ Sân bay Tân Sơn Nhất đến một điểm không tồn tại tên là 'Trạm Xyz 999' vào lúc 23:30 không?",
+    "expected_behavior": "Agent gọi Tool 'route_lookup', nhận kết quả NOT_FOUND hoặc NO_ROUTE và thông báo lịch sự rằng chưa tìm thấy tuyến phù hợp, không bịa đặt tuyến hoặc thời gian chạy.",
+    "complexity": "Medium"
+  }
+]

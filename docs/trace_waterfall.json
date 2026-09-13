@@ -1,29 +1,160 @@
 [
   {
     "step": 1,
-    "query": "Chào bạn, bạn có thể giới thiệu quy chế học vụ cơ bản của Đại học VinUni không?",
-    "action_type": "FINAL_ANSWER",
-    "thought": "Câu hỏi chung về quy chế học vụ, trả lời trực tiếp không cần gọi Tool.",
-    "output": "[Mock Agent Response]: Xin chào! Quy chế học vụ VinUni yêu cầu sinh viên tích lũy tối thiểu 120 tín chỉ và duy trì GPA trên 2.0 để tốt nghiệp.",
-    "latency_ms": 2845.93
-  },
-  {
-    "step": 1,
-    "query": "Hãy tra cứu thông tin học vụ của sinh viên SV2026001.",
+    "query": "Chào bạn, VinBus là dịch vụ gì và có thân thiện với môi trường không?",
     "action_type": "TOOL_EXECUTION",
-    "tool_name": "academic_query",
+    "tool_name": "route_lookup",
     "arguments": {
-      "student_id": "SV2026001"
+      "origin": "Vinhomes Central Park",
+      "destination": "Bến xe Miền Đông mới"
     },
-    "observation": {},
-    "latency_ms": 799.12
+    "observation": {
+      "status": "SUCCESS",
+      "data": {
+        "route_code": "E01",
+        "origin": "Vinhomes Central Park",
+        "destination": "Bến xe Miền Đông mới",
+        "operating_hours": "05:30 - 22:00",
+        "frequency_minutes": 15,
+        "ticket_price": 7000,
+        "monthly_pass_price": 300000
+      },
+      "message": "Tuyến E01 phù hợp: Vinhomes Central Park → Bến xe Miền Đông mới. Hoạt động 05:30 - 22:00 (mỗi 15 phút/chuyến). Giá vé lượt: 7000đ, giá vé tháng: 300000đ."
+    },
+    "latency_ms": 1203.06
   },
   {
     "step": 2,
-    "query": "Hãy tra cứu thông tin học vụ của sinh viên SV2026001.",
+    "query": "Chào bạn, VinBus là dịch vụ gì và có thân thiện với môi trường không?",
     "action_type": "FINAL_ANSWER",
-    "thought": "Tổng hợp kết quả từ MCP Server thành công.",
-    "output": "Chưa thể trả lời chi tiết do chưa nhận được dữ liệu từ MCP Server (hãy hoàn thành TODO 2.1).",
-    "latency_ms": 10.0
+    "thought": "Đã có Observation từ Tool, tổng hợp kết quả và trả lời người dùng.",
+    "output": "Tôi đã nhận được kết quả từ MCP Server và sẽ dùng dữ liệu đó để phản hồi chính xác cho bạn.",
+    "latency_ms": 622.75
+  },
+  {
+    "step": 1,
+    "query": "Hãy tra cứu tuyến VinBus từ Vinhomes Central Park đến Bến xe Miền Đông mới.",
+    "action_type": "TOOL_EXECUTION",
+    "tool_name": "route_lookup",
+    "arguments": {
+      "origin": "Vinhomes Central Park",
+      "destination": "Bến xe Miền Đông mới"
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "data": {
+        "route_code": "E01",
+        "origin": "Vinhomes Central Park",
+        "destination": "Bến xe Miền Đông mới",
+        "operating_hours": "05:30 - 22:00",
+        "frequency_minutes": 15,
+        "ticket_price": 7000,
+        "monthly_pass_price": 300000
+      },
+      "message": "Tuyến E01 phù hợp: Vinhomes Central Park → Bến xe Miền Đông mới. Hoạt động 05:30 - 22:00 (mỗi 15 phút/chuyến). Giá vé lượt: 7000đ, giá vé tháng: 300000đ."
+    },
+    "latency_ms": 625.62
+  },
+  {
+    "step": 2,
+    "query": "Hãy tra cứu tuyến VinBus từ Vinhomes Central Park đến Bến xe Miền Đông mới.",
+    "action_type": "FINAL_ANSWER",
+    "thought": "Đã có Observation từ Tool, tổng hợp kết quả và trả lời người dùng.",
+    "output": "Tôi đã nhận được kết quả từ MCP Server và sẽ dùng dữ liệu đó để phản hồi chính xác cho bạn.",
+    "latency_ms": 913.74
+  },
+  {
+    "step": 1,
+    "query": "Tôi muốn đăng ký vé tháng VinBus cho tuyến E01, bắt đầu sử dụng từ ngày 20/09/2026. Hãy hướng dẫn và thực hiện đăng ký cho tôi.",
+    "action_type": "TOOL_EXECUTION",
+    "tool_name": "monthly_pass_registration",
+    "arguments": {
+      "route_code": "E01",
+      "start_date": "20/09/2026",
+      "passenger_name": "Khách hàng VinBus"
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "booking_id": "VB-E01-20092026",
+      "data": {
+        "route_code": "E01",
+        "start_date": "20/09/2026",
+        "passenger_name": "Khách hàng VinBus",
+        "monthly_pass_price": 300000
+      },
+      "message": "Đăng ký vé tháng thành công cho tuyến E01 (Vinhomes Central Park → Bến xe Miền Đông mới) bắt đầu từ ngày 20/09/2026, giá 300000đ/tháng."
+    },
+    "latency_ms": 1748.92
+  },
+  {
+    "step": 2,
+    "query": "Tôi muốn đăng ký vé tháng VinBus cho tuyến E01, bắt đầu sử dụng từ ngày 20/09/2026. Hãy hướng dẫn và thực hiện đăng ký cho tôi.",
+    "action_type": "FINAL_ANSWER",
+    "thought": "Đã có Observation từ Tool, tổng hợp kết quả và trả lời người dùng.",
+    "output": "Tôi đã nhận được kết quả từ MCP Server và sẽ dùng dữ liệu đó để phản hồi chính xác cho bạn.",
+    "latency_ms": 482.1
+  },
+  {
+    "step": 1,
+    "query": "Tôi cần đi từ Vinhomes Central Park đến Bến xe Miền Đông mới vào lúc 07:30 ngày 15/09/2026. Hãy tìm tuyến VinBus phù hợp, kiểm tra thời gian hoạt động và đăng ký vé tháng nếu tuyến đó hỗ trợ.",
+    "action_type": "TOOL_EXECUTION",
+    "tool_name": "monthly_pass_registration",
+    "arguments": {
+      "route_code": "E01",
+      "start_date": "20/09/2026",
+      "passenger_name": "Khách hàng VinBus"
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "booking_id": "VB-E01-20092026",
+      "data": {
+        "route_code": "E01",
+        "start_date": "20/09/2026",
+        "passenger_name": "Khách hàng VinBus",
+        "monthly_pass_price": 300000
+      },
+      "message": "Đăng ký vé tháng thành công cho tuyến E01 (Vinhomes Central Park → Bến xe Miền Đông mới) bắt đầu từ ngày 20/09/2026, giá 300000đ/tháng."
+    },
+    "latency_ms": 582.35
+  },
+  {
+    "step": 2,
+    "query": "Tôi cần đi từ Vinhomes Central Park đến Bến xe Miền Đông mới vào lúc 07:30 ngày 15/09/2026. Hãy tìm tuyến VinBus phù hợp, kiểm tra thời gian hoạt động và đăng ký vé tháng nếu tuyến đó hỗ trợ.",
+    "action_type": "FINAL_ANSWER",
+    "thought": "Đã có Observation từ Tool, tổng hợp kết quả và trả lời người dùng.",
+    "output": "Tôi đã nhận được kết quả từ MCP Server và sẽ dùng dữ liệu đó để phản hồi chính xác cho bạn.",
+    "latency_ms": 482.94
+  },
+  {
+    "step": 1,
+    "query": "VinBus có tuyến nào từ Sân bay Tân Sơn Nhất đến một điểm không tồn tại tên là 'Trạm Xyz 999' vào lúc 23:30 không?",
+    "action_type": "TOOL_EXECUTION",
+    "tool_name": "route_lookup",
+    "arguments": {
+      "origin": "Vinhomes Central Park",
+      "destination": "Bến xe Miền Đông mới"
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "data": {
+        "route_code": "E01",
+        "origin": "Vinhomes Central Park",
+        "destination": "Bến xe Miền Đông mới",
+        "operating_hours": "05:30 - 22:00",
+        "frequency_minutes": 15,
+        "ticket_price": 7000,
+        "monthly_pass_price": 300000
+      },
+      "message": "Tuyến E01 phù hợp: Vinhomes Central Park → Bến xe Miền Đông mới. Hoạt động 05:30 - 22:00 (mỗi 15 phút/chuyến). Giá vé lượt: 7000đ, giá vé tháng: 300000đ."
+    },
+    "latency_ms": 465.87
+  },
+  {
+    "step": 2,
+    "query": "VinBus có tuyến nào từ Sân bay Tân Sơn Nhất đến một điểm không tồn tại tên là 'Trạm Xyz 999' vào lúc 23:30 không?",
+    "action_type": "FINAL_ANSWER",
+    "thought": "Đã có Observation từ Tool, tổng hợp kết quả và trả lời người dùng.",
+    "output": "Tôi đã nhận được kết quả từ MCP Server và sẽ dùng dữ liệu đó để phản hồi chính xác cho bạn.",
+    "latency_ms": 497.7
   }
 ]

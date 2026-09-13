@@ -36,27 +36,39 @@ class MockOfflineProvider(BaseLLMProvider):
 
     def generate_with_tools(self, prompt: str, tools_schema: List[Dict[str, Any]], system_prompt: str = "") -> Dict[str, Any]:
         prompt_lower = prompt.lower()
-        
-        # Mô phỏng nhận diện intent gọi Tool
-        if "sv2026001" in prompt_lower and "đặt lịch" in prompt_lower:
+
+        if "observation từ mcp server" in prompt_lower:
             return {
-                "type": "tool_call",
-                "tool_name": "schedule_appointment",
-                "arguments": {"student_id": "SV2026001", "datetime_str": "14:00 15/09/2026", "advisor_name": "PGS.TS Nguyễn Văn A"},
-                "thought": "Người dùng yêu cầu đặt lịch hẹn tư vấn cho sinh viên SV2026001. Tôi sẽ gọi tool schedule_appointment."
+                "type": "text",
+                "content": "Tôi đã nhận được kết quả từ MCP Server và sẽ dùng dữ liệu đó để phản hồi chính xác cho bạn.",
+                "thought": "Đã có Observation từ Tool, tổng hợp kết quả và trả lời người dùng."
             }
-        elif "sv2026001" in prompt_lower or "tra cứu" in prompt_lower:
+
+        # Mô phỏng nhận diện intent gọi Tool (chủ đề VinBus)
+        if "đăng ký" in prompt_lower and "vé tháng" in prompt_lower:
+            route_code = "E01"
+            for code in ["E01", "E02", "E03"]:
+                if code.lower() in prompt_lower:
+                    route_code = code
+                    break
             return {
                 "type": "tool_call",
-                "tool_name": "academic_query",
-                "arguments": {"student_id": "SV2026001"},
-                "thought": "Người dùng muốn tra cứu thông tin học vụ của sinh viên SV2026001. Tôi sẽ gọi tool academic_query."
+                "tool_name": "monthly_pass_registration",
+                "arguments": {"route_code": route_code, "start_date": "20/09/2026", "passenger_name": "Khách hàng VinBus"},
+                "thought": f"Người dùng yêu cầu đăng ký vé tháng cho tuyến {route_code}. Tôi sẽ gọi tool monthly_pass_registration."
+            }
+        elif "vinbus" in prompt_lower or ("tuyến" in prompt_lower and ("đi từ" in prompt_lower or "đến" in prompt_lower or "tra cứu" in prompt_lower)):
+            return {
+                "type": "tool_call",
+                "tool_name": "route_lookup",
+                "arguments": {"origin": "Vinhomes Central Park", "destination": "Bến xe Miền Đông mới"},
+                "thought": "Người dùng muốn tra cứu tuyến xe bus điện VinBus phù hợp. Tôi sẽ gọi tool route_lookup."
             }
         else:
             return {
                 "type": "text",
-                "content": f"[Mock Agent Response]: Xin chào! Quy chế học vụ VinUni yêu cầu sinh viên tích lũy tối thiểu 120 tín chỉ và duy trì GPA trên 2.0 để tốt nghiệp.",
-                "thought": "Câu hỏi chung về quy chế học vụ, trả lời trực tiếp không cần gọi Tool."
+                "content": "[Mock Agent Response]: Xin chào! VinBus là hệ thống xe bus điện phục vụ di chuyển nội khu và liên khu vực, hoạt động hàng ngày với nhiều tuyến khác nhau.",
+                "thought": "Câu hỏi chung về dịch vụ VinBus, trả lời trực tiếp không cần gọi Tool."
             }
 
 
